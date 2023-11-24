@@ -59,17 +59,6 @@ Logo:
 > - Grava um vídeo atualizado explicando o que foi sugerido e o que fizeram para melhorar a interface
 > - Apresentar uma foto da interface sendo executada no LCD (imagem estática)
 
-Detalhes da segunda interação da proposta de interface:
-
-<!-- 
- Adicionar texto descrevendo a evolução 
- da interface
--->
-
-- Imagem da proposta
-- Imagem da proposta no LCD
-- Vídeo
-
 ### Escolha da Fonte Montserrat:
 
 A fonte *Montserrat* é uma escolha popular para interfaces digitais devido à sua alta legibilidade e estilo moderno. Ela foi projetada para ser clara e legível em diferentes tamanhos e resoluções, o que é ideal para displays com capacidades limitadas de renderização de fontes, como é o caso do LCD. Além disso, Montserrat possui uma geometria agradável e formas abertas, o que ajuda na legibilidade mesmo em tamanhos menores.
@@ -86,6 +75,19 @@ Em suma, a seleção de *Montserrat* e a hierarquia de tamanho propostas têm co
 
 - **Menor Tamanho para o Horário e Ícones (*Montserrat* Regular)**: Estas são informações complementares que o usuário consulta esporadicamente, portanto, podem ser menores para não competir com os dados principais.
 
+### Detalhes da segunda interação da proposta de interface:
+
+Adicionado um roller com aros pré definidos na aba de alterar
+o diâmetro da roda, seguindo as orientações do Luiz.
+
+### Sugestão do Luiz do Fablab
+![BUTTON (1)](https://github.com/insper-classroom/23b-emb-aps2-civita_mendonca/assets/67804009/3c3599c4-5d61-44a7-84b0-2ed19f64fc54)
+
+### Alterações aplicadas à arquitetura
+![BUTTON (2)](https://github.com/insper-classroom/23b-emb-aps2-civita_mendonca/assets/67804009/20497028-af00-4c58-b369-26d2369a855e)
+
+### Imagem da proposta no LCD
+
 ## Proposta UX 3 - A
 
 > - Especifica e justifica as cores a serem usadas na interface
@@ -93,17 +95,6 @@ Em suma, a seleção de *Montserrat* e a hierarquia de tamanho propostas têm co
 >     - Grava em vídeo a entrevista
 > - Grava um vídeo atualizado explicando o que foi sugerido e o que fizeram para melhorar a interface
 > - Apresentar uma foto da interface sendo executada no LCD (imagem estática)
-
-Detalhes da terceira interação da proposta de interface:
-
-<!-- 
- Adicionar texto descrevendo a evolução 
- da interface
--->
-
-- Imagem da proposta
-- Imagem da proposta no LCD
-- Vídeo 
 
 ### Paleta de Cores:
 
@@ -114,3 +105,16 @@ Detalhes da terceira interação da proposta de interface:
 - *#F42135* (Vermelho): Para destacar informações críticas sem comprometer a visão noturna. A luz vermelha é tradicionalmente usada em ambientes de baixa luminosidade pois não causa a constrição das pupilas, mantendo a visão adaptada à escuridão.
 
 - *#21F4E0* (Azul Ciano): Para elementos interativos como botões e controles deslizantes. O ciano é complementar ao vermelho no espectro de cores e cria um contraste visual que pode ajudar a distinguir elementos clicáveis, seguindo as heurísticas de usabilidade de Nielsen.
+
+### Detalhes da terceira interação da proposta de interface:
+
+Adicionado label de aceleração na página anterior à do trajeto iniciado, como sugerido
+pelo Luca Mizrahi
+
+### Arquitetura alterada seguindo sugestões do Luca
+![BUTTON (3)](https://github.com/insper-classroom/23b-emb-aps2-civita_mendonca/assets/67804009/e7090d0c-fc3c-4393-b074-df7023363ff0)
+
+
+### Imagem da proposta no LCD
+
+
