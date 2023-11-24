@@ -224,6 +224,7 @@ SUBDIRS :=  \
 ../src/ASF/thirdparty/lvgl8/tests/unity/ \
 ../src/ASF/thirdparty/lvgl8/zephyr/ \
 ../src/config/ \
+../src/img \
 ../src/touch/
 
 

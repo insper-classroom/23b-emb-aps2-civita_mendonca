@@ -7,6 +7,14 @@
 #include "ili9341.h"
 #include "lvgl.h"
 #include "touch/touch.h"
+#include "img/tela1_v1.h"
+#include "img/tela2_v1.h"
+#include "img/tela2_v2.h"
+#include "img/tela3e4_v1.h"
+#include "img/tela5_v1.h"
+#include "img/tela6_v1.h"
+#include "img/tela6_v2.h"
+#include "img/tela7_v1.h"
 
 /************************************************************************/
 /* LCD / LVGL                                                           */
@@ -64,26 +72,52 @@ static void event_handler(lv_event_t * e) {
 	}
 }
 
-void lv_ex_btn_1(void) {
-	lv_obj_t * label;
+void lv_img_tela1(void) {
+	lv_obj_t * img1 = lv_img_create(lv_scr_act());
+	lv_img_set_src(img1, &tela1_v1);
+	lv_obj_align(img1, LV_ALIGN_CENTER, 0, 0);
+}
 
-	lv_obj_t * btn1 = lv_btn_create(lv_scr_act());
-	lv_obj_add_event_cb(btn1, event_handler, LV_EVENT_ALL, NULL);
-	lv_obj_align(btn1, LV_ALIGN_CENTER, 0, -40);
+void lv_img_tela2(void) {
+	lv_obj_t * img2 = lv_img_create(lv_scr_act());
+	lv_img_set_src(img2, &tela2_v1);
+	lv_obj_align(img2, LV_ALIGN_CENTER, 0, 0);
+}
 
-	label = lv_label_create(btn1);
-	lv_label_set_text(label, "Corsi");
-	lv_obj_center(label);
+void lv_img_tela2_v2(void) {
+	lv_obj_t * img2e2 = lv_img_create(lv_scr_act());
+	lv_img_set_src(img2e2, &tela2_v2);
+	lv_obj_align(img2e2, LV_ALIGN_CENTER, 0, 0);
+}
 
-	lv_obj_t * btn2 = lv_btn_create(lv_scr_act());
-	lv_obj_add_event_cb(btn2, event_handler, LV_EVENT_ALL, NULL);
-	lv_obj_align(btn2, LV_ALIGN_CENTER, 0, 40);
-	lv_obj_add_flag(btn2, LV_OBJ_FLAG_CHECKABLE);
-	lv_obj_set_height(btn2, LV_SIZE_CONTENT);
+void lv_img_tela3e4(void) {
+	lv_obj_t * img3e4 = lv_img_create(lv_scr_act());
+	lv_img_set_src(img3e4, &tela3e4_v1);
+	lv_obj_align(img3e4, LV_ALIGN_CENTER, 0, 0);
+}
 
-	label = lv_label_create(btn2);
-	lv_label_set_text(label, "Toggle");
-	lv_obj_center(label);
+void lv_img_tela5(void) {
+	lv_obj_t * img5 = lv_img_create(lv_scr_act());
+	lv_img_set_src(img5, &tela5_v1);
+	lv_obj_align(img5, LV_ALIGN_CENTER, 0, 0);
+}
+
+void lv_img_tela6(void) {
+	lv_obj_t * img6 = lv_img_create(lv_scr_act());
+	lv_img_set_src(img6, &tela6_v1);
+	lv_obj_align(img6, LV_ALIGN_CENTER, 0, 0);
+}
+
+void lv_img_tela6_v2(void) {
+	lv_obj_t * img6e2 = lv_img_create(lv_scr_act());
+	lv_img_set_src(img6e2, &tela6_v2);
+	lv_obj_align(img6e2, LV_ALIGN_CENTER, 0, 0);
+}
+
+void lv_img_tela7(void) {
+	lv_obj_t * img7 = lv_img_create(lv_scr_act());
+	lv_img_set_src(img7, &tela7_v1);
+	lv_obj_align(img7, LV_ALIGN_CENTER, 0, 0);
 }
 
 /************************************************************************/
@@ -93,7 +127,8 @@ void lv_ex_btn_1(void) {
 static void task_lcd(void *pvParameters) {
 	int px, py;
 
-	lv_ex_btn_1();
+	// lv_ex_btn_1();
+	lv_img_tela6_v2();
 
 	for (;;)  {
 		lv_tick_inc(50);

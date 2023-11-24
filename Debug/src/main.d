@@ -411,7 +411,9 @@ src/main.d src/main.o: ../src/main.c ../src/asf.h \
  ../src/ASF/thirdparty/lvgl8/src/extra/libs/freetype/../../../lvgl.h \
  ../src/ASF/thirdparty/lvgl8/src/extra/libs/rlottie/lv_rlottie.h \
  ../src/ASF/thirdparty/lvgl8/src/extra/libs/rlottie/../../../lvgl.h \
- ../src/touch/touch.h
+ ../src/touch/touch.h ../src/img/tela1_v1.h ../src/img/tela2_v1.h \
+ ../src/img/tela2_v2.h ../src/img/tela3e4_v1.h ../src/img/tela5_v1.h \
+ ../src/img/tela6_v1.h ../src/img/tela6_v2.h ../src/img/tela7_v1.h
 
 ../src/asf.h:
 
@@ -1258,3 +1260,19 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\arm\arm-gnu-toolchain\arm-no
 ../src/ASF/thirdparty/lvgl8/src/extra/libs/rlottie/../../../lvgl.h:
 
 ../src/touch/touch.h:
+
+../src/img/tela1_v1.h:
+
+../src/img/tela2_v1.h:
+
+../src/img/tela2_v2.h:
+
+../src/img/tela3e4_v1.h:
+
+../src/img/tela5_v1.h:
+
+../src/img/tela6_v1.h:
+
+../src/img/tela6_v2.h:
+
+../src/img/tela7_v1.h:

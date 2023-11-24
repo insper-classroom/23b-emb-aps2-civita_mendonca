@@ -37,16 +37,23 @@ Logo:
 
 ### Descricão da primeira proposta da interface:
 
-- ### Sequência de telas da proposta
+- ### Sequência de telas da primeira proposta
 
-![Tela 1](img/tela1.png)
-![Tela 2](img/tela2.png)
-![Telas 3 e 4](img/tela3e4.png)
-![Tela 5](img/tela5.png)
-![Tela 6](img/tela6.png)
-![Tela 7](img/tela7.png)
+<img src="img/tela1.png" alt="tela 1" style="width: 300px;"/>
+<img src="img/tela2.png" alt="tela 2" style="width: 300px;"/>
+<img src="img/tela3e4.png" alt="tela 3" style="width: 300px;"/>
+<img src="img/tela5.png" alt="tela 5" style="width: 300px;"/>
+<img src="img/tela6.png" alt="tela 6" style="width: 300px;"/>
+<img src="img/tela7.png" alt="tela 7" style="width: 300px;"/>
 
-- ### Imagem da proposta no LCD
+- ### Sequência de telas da primeira proposta no LCD
+
+<img src="img/tela1_v1_lcd.jpg" alt="tela 1 no lcd" style="width: 300px;"/>
+<img src="img/tela2_v1_lcd.jpg" alt="tela 2 no lcd" style="width: 300px;"/>
+<img src="img/tela3e4_v1_lcd.jpg" alt="tela 3 no lcd" style="width: 300px;"/>
+<img src="img/tela5_v1_lcd.jpg" alt="tela 5 no lcd" style="width: 300px;"/>
+<img src="img/tela6_v1_lcd.jpg" alt="tela 6 no lcd" style="width: 300px;"/>
+<img src="img/tela7_v1_lcd.jpg" alt="tela 7 no lcd" style="width: 300px;"/>
 
 - ### Imagem explicando os widgets do LVGL
 ![Widgets do LVGL](img/widgets.png)
@@ -77,16 +84,31 @@ Em suma, a seleção de *Montserrat* e a hierarquia de tamanho propostas têm co
 
 ### Detalhes da segunda interação da proposta de interface:
 
-Adicionado um roller com aros pré definidos na aba de alterar
-o diâmetro da roda, seguindo as orientações do Luiz.
+Adicionado um roller com aros pré definidos na aba de alterar o diâmetro da roda, seguindo as orientações do Luiz, técnico do FabLab do Insper.
 
 ### Sugestão do Luiz do Fablab
-![BUTTON (1)](https://github.com/insper-classroom/23b-emb-aps2-civita_mendonca/assets/67804009/3c3599c4-5d61-44a7-84b0-2ed19f64fc54)
+![Sugestão do Luiz](img/widgets_sugestao.png)
 
 ### Alterações aplicadas à arquitetura
-![BUTTON (2)](https://github.com/insper-classroom/23b-emb-aps2-civita_mendonca/assets/67804009/20497028-af00-4c58-b369-26d2369a855e)
+![Alterações](img/alteracoes1.png)
 
-### Imagem da proposta no LCD
+### Sequência de telas da segunda proposta
+
+<img src="img/tela1.png" alt="tela 1" style="width: 300px;"/>
+<img src="img/tela2.png" alt="tela 2" style="width: 300px;"/>
+<img src="img/tela3e4.png" alt="tela 3" style="width: 300px;"/>
+<img src="img/tela5.png" alt="tela 5" style="width: 300px;"/>
+<img src="img/tela6_v2.png" alt="tela 6 - versão 2" style="width: 300px;"/>
+<img src="img/tela7.png" alt="tela 7" style="width: 300px;"/>
+
+### Sequência de telas da segunda proposta no LCD
+
+<img src="img/tela1_v1_lcd.jpg" alt="tela 1 no lcd" style="width: 300px;"/>
+<img src="img/tela2_v1_lcd.jpg" alt="tela 2 no lcd" style="width: 300px;"/>
+<img src="img/tela3e4_v1_lcd.jpg" alt="tela 3 no lcd" style="width: 300px;"/>
+<img src="img/tela5_v1_lcd.jpg" alt="tela 5 no lcd" style="width: 300px;"/>
+<img src="img/tela6_v2.jpg" alt="tela 6 no lcd" style="width: 300px;"/>
+<img src="img/tela7_v1_lcd.jpg" alt="tela 7 no lcd" style="width: 300px;"/>
 
 ## Proposta UX 3 - A
 
@@ -108,13 +130,25 @@ o diâmetro da roda, seguindo as orientações do Luiz.
 
 ### Detalhes da terceira interação da proposta de interface:
 
-Adicionado label de aceleração na página anterior à do trajeto iniciado, como sugerido
-pelo Luca Mizrahi
+Nossa segunda opinão foi a do aluno Luca Mizrahi, que sugeriu a adição de um label de aceleração na página anterior à do trajeto iniciado, para que o usuário possa saber se está acelerando ou desacelerando antes de iniciar o trajeto. Acreditamos que essa é uma boa sugestão, pois permite que o usuário se prepare para iniciar o trajeto com a velocidade desejada.
 
 ### Arquitetura alterada seguindo sugestões do Luca
-![BUTTON (3)](https://github.com/insper-classroom/23b-emb-aps2-civita_mendonca/assets/67804009/e7090d0c-fc3c-4393-b074-df7023363ff0)
+![Arquitetura](img/alteracoes2.png)
 
+### Sequência de telas da terceira proposta
 
-### Imagem da proposta no LCD
+<img src="img/tela1.png" alt="tela 1" style="width: 300px;"/>
+<img src="img/tela2_v2.png" alt="tela 2" style="width: 300px;"/>
+<img src="img/tela3e4.png" alt="tela 3" style="width: 300px;"/>
+<img src="img/tela5.png" alt="tela 5" style="width: 300px;"/>
+<img src="img/tela6_v2.png" alt="tela 6 - versão 2" style="width: 300px;"/>
+<img src="img/tela7.png" alt="tela 7" style="width: 300px;"/>
 
+### Sequência de telas da terceira proposta no LCD
 
+<img src="img/tela1_v1_lcd.jpg" alt="tela 1 no lcd" style="width: 300px;"/>
+<img src="img/tela2_v2.jpg" alt="tela 2 no lcd" style="width: 300px;"/>
+<img src="img/tela3e4_v1_lcd.jpg" alt="tela 3 no lcd" style="width: 300px;"/>
+<img src="img/tela5_v1_lcd.jpg" alt="tela 5 no lcd" style="width: 300px;"/>
+<img src="img/tela6_v2.jpg" alt="tela 6 no lcd" style="width: 300px;"/>
+<img src="img/tela7_v1_lcd.jpg" alt="tela 7 no lcd" style="width: 300px;"/>
