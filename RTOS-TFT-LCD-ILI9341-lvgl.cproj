@@ -2268,6 +2268,9 @@
     <Compile Include="src\config\conf_touch.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="src\img\tela1.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="src\img\tela1_v1.h">
       <SubType>compile</SubType>
     </Compile>
@@ -2290,6 +2293,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\img\tela7_v1.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\montserrat_32.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\montserrat_65.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\touch\touch.c">

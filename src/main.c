@@ -8,20 +8,23 @@
 #include "lvgl.h"
 #include "touch/touch.h"
 #include "img/tela1_v1.h"
-#include "img/tela2_v1.h"
-#include "img/tela2_v2.h"
+#include "img/tela1.h"
+#include "img/tela2.h"
 #include "img/tela3e4_v1.h"
 #include "img/tela5_v1.h"
 #include "img/tela6_v1.h"
 #include "img/tela6_v2.h"
 #include "img/tela7_v1.h"
 
+LV_FONT_DECLARE(montserrat_65);
+LV_FONT_DECLARE(montserrat_32);
+
 /************************************************************************/
 /* LCD / LVGL                                                           */
 /************************************************************************/
 
-#define LV_HOR_RES_MAX          (320)
-#define LV_VER_RES_MAX          (240)
+#define LV_HOR_RES_MAX          (240)
+#define LV_VER_RES_MAX          (320)
 
 /*A static or global variable to store the buffers*/
 static lv_disp_draw_buf_t disp_buf;
@@ -31,6 +34,16 @@ static lv_color_t buf_1[LV_HOR_RES_MAX * LV_VER_RES_MAX];
 static lv_disp_drv_t disp_drv;          /*A variable to hold the drivers. Must be static or global.*/
 static lv_indev_drv_t indev_drv;
 
+lv_obj_t *img1;
+lv_obj_t *img2;
+lv_obj_t *velocimeter;
+lv_obj_t *kmporh;
+lv_obj_t *play;
+lv_obj_t *pause;
+lv_obj_t *stop;
+lv_obj_t *config;
+lv_obj_t *home;
+
 /************************************************************************/
 /* RTOS                                                                 */
 /************************************************************************/
@@ -38,7 +51,8 @@ static lv_indev_drv_t indev_drv;
 #define TASK_LCD_STACK_SIZE                (1024*6/sizeof(portSTACK_TYPE))
 #define TASK_LCD_STACK_PRIORITY            (tskIDLE_PRIORITY)
 
-extern void vApplicationStackOverflowHook(xTaskHandle *pxTask,  signed char *pcTaskName);
+	extern void
+	vApplicationStackOverflowHook(xTaskHandle *pxTask, signed char *pcTaskName);
 extern void vApplicationIdleHook(void);
 extern void vApplicationTickHook(void);
 extern void vApplicationMallocFailedHook(void);
@@ -61,6 +75,7 @@ extern void vApplicationMallocFailedHook(void) {
 /* lvgl                                                                 */
 /************************************************************************/
 
+
 static void event_handler(lv_event_t * e) {
 	lv_event_code_t code = lv_event_get_code(e);
 
@@ -72,22 +87,89 @@ static void event_handler(lv_event_t * e) {
 	}
 }
 
-void lv_img_tela1(void) {
-	lv_obj_t * img1 = lv_img_create(lv_scr_act());
-	lv_img_set_src(img1, &tela1_v1);
-	lv_obj_align(img1, LV_ALIGN_CENTER, 0, 0);
-}
-
-void lv_img_tela2(void) {
-	lv_obj_t * img2 = lv_img_create(lv_scr_act());
-	lv_img_set_src(img2, &tela2_v1);
+void lv_img_tela2_fake(void) {
+	img2 = lv_img_create(lv_scr_act());
+	lv_img_set_src(img2, &tela2);
 	lv_obj_align(img2, LV_ALIGN_CENTER, 0, 0);
 }
 
-void lv_img_tela2_v2(void) {
-	lv_obj_t * img2e2 = lv_img_create(lv_scr_act());
-	lv_img_set_src(img2e2, &tela2_v2);
-	lv_obj_align(img2e2, LV_ALIGN_CENTER, 0, 0);
+void lv_tela3(void) {
+	velocimeter = lv_label_create(lv_scr_act());
+	lv_obj_align(velocimeter, LV_ALIGN_CENTER, 0, -105);
+	lv_obj_set_style_text_font(velocimeter, &montserrat_65, LV_STATE_DEFAULT);
+	lv_obj_set_style_text_color(velocimeter, lv_color_white(), LV_STATE_DEFAULT);
+	lv_label_set_text_fmt(velocimeter, "%d.%d", 0, 0);
+
+	kmporh = lv_label_create(lv_scr_act());
+	lv_obj_align(kmporh, LV_ALIGN_CENTER, 0, -50);
+	lv_obj_set_style_text_font(kmporh, &montserrat_32, LV_STATE_DEFAULT);
+	lv_obj_set_style_text_color(kmporh, lv_color_white(), LV_STATE_DEFAULT);
+	lv_label_set_text_fmt(kmporh, "km/h");
+}
+
+static void play1_handler(lv_event_t * e) {
+	lv_event_code_t code = lv_event_get_code(e);
+
+	if(code == LV_EVENT_CLICKED) {
+		lv_obj_clean(lv_scr_act());
+		lv_tela3();
+	}
+	else if(code == LV_EVENT_VALUE_CHANGED) {
+		LV_LOG_USER("Toggled");
+	}
+}
+
+void lv_tela2(void) {
+	lv_obj_t * label;
+	static lv_style_t style;
+
+	lv_style_init(&style);
+	lv_style_set_bg_color(&style, lv_palette_main(LV_PALETTE_RED));
+	lv_style_set_border_color(&style, lv_palette_main(LV_PALETTE_NONE));
+	lv_style_set_border_width(&style, 5);
+
+	velocimeter = lv_label_create(lv_scr_act());
+	lv_obj_align(velocimeter, LV_ALIGN_CENTER, 0, -75);
+	lv_obj_set_style_text_font(velocimeter, &montserrat_65, LV_STATE_DEFAULT);
+	lv_obj_set_style_text_color(velocimeter, lv_color_white(), LV_STATE_DEFAULT);
+	lv_label_set_text_fmt(velocimeter, "%d.%d", 0, 0);
+
+	kmporh = lv_label_create(lv_scr_act());
+	lv_obj_align(kmporh, LV_ALIGN_CENTER, 0, -15);
+	lv_obj_set_style_text_font(kmporh, &montserrat_32, LV_STATE_DEFAULT);
+	lv_obj_set_style_text_color(kmporh, lv_color_white(), LV_STATE_DEFAULT);
+	lv_label_set_text_fmt(kmporh, "km/h");
+
+	play = lv_btn_create(lv_scr_act());
+	lv_obj_add_event_cb(play, play1_handler, LV_EVENT_ALL, NULL);
+	lv_obj_align(play, LV_ALIGN_BOTTOM_MID, 0, -50);
+	lv_obj_add_style(play, &style, 0);
+	lv_obj_set_width(play, 80);
+	lv_obj_set_height(play, 80);
+	label = lv_label_create(play);
+	lv_label_set_text(label, LV_SYMBOL_PLAY);
+	lv_obj_center(label);
+}
+
+
+static void tela1_handler(lv_event_t * e) {
+	lv_event_code_t code = lv_event_get_code(e);
+
+	if(code == LV_EVENT_CLICKED) {
+		lv_obj_clean(lv_scr_act());
+		lv_tela2();
+	}
+	else if(code == LV_EVENT_VALUE_CHANGED) {
+		LV_LOG_USER("Toggled");
+	}
+}
+
+void lv_img_tela1(void) {
+	img1 = lv_imgbtn_create(lv_scr_act());
+	lv_imgbtn_set_src(img1, LV_IMGBTN_STATE_RELEASED, NULL, NULL, &tela1);
+	lv_obj_align(img1, LV_ALIGN_CENTER, 0, 0);
+	lv_obj_set_size(img1, 240, 320);
+	lv_obj_add_event_cb(img1, tela1_handler, LV_EVENT_ALL, NULL);
 }
 
 void lv_img_tela3e4(void) {
@@ -125,10 +207,7 @@ void lv_img_tela7(void) {
 /************************************************************************/
 
 static void task_lcd(void *pvParameters) {
-	int px, py;
-
-	// lv_ex_btn_1();
-	lv_img_tela6_v2();
+	lv_img_tela1();
 
 	for (;;)  {
 		lv_tick_inc(50);
@@ -226,6 +305,7 @@ int main(void) {
 	configure_lcd();
 	configure_touch();
 	configure_lvgl();
+	ili9341_set_orientation(ILI9341_FLIP_Y | ILI9341_SWITCH_XY);
 
 	/* Create task to control oled */
 	if (xTaskCreate(task_lcd, "LCD", TASK_LCD_STACK_SIZE, NULL, TASK_LCD_STACK_PRIORITY, NULL) != pdPASS) {

@@ -25,6 +25,7 @@ Logo:
 
 ![Logo](img/logo.png)
 
+![Alt text](image.png)
 # Interface
 
 ## Proposta UX 1 - C
