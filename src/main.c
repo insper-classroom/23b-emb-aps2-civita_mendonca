@@ -58,7 +58,7 @@ lv_obj_t *back;
 lv_obj_t *wheel;
 lv_obj_t *up;
 lv_obj_t *down;
-lv_obj_t *btn3;
+lv_obj_t *clock;
 
 /************************************************************************/
 /* RTOS                                                                 */
@@ -126,7 +126,7 @@ void lv_tela3(void) {
 	lv_label_set_text_fmt(kmporh, "km/h");
 	// COLOCAR UM HANDLE DPS CONFORME O SENSOR DE ACELERACAO PARA UP E DOWN
 	up = lv_btn_create(lv_scr_act());
-	lv_obj_align(up, LV_ALIGN_CENTER, -100, -105);
+	lv_obj_align(up, LV_ALIGN_CENTER, -90, -105);
 	lv_obj_add_style(up, &style, 0);
 
 	label = lv_label_create(up); 
@@ -135,7 +135,7 @@ void lv_tela3(void) {
 	lv_obj_center(label);
 
 	down = lv_btn_create(lv_scr_act());
-	lv_obj_align(down, LV_ALIGN_CENTER, 100, -105);
+	lv_obj_align(down, LV_ALIGN_CENTER, 90, -105);
 	lv_obj_add_style(down, &style, 0);
 
 	label = lv_label_create(down);
@@ -153,23 +153,23 @@ void lv_tela3(void) {
 	lv_obj_align(label, LV_ALIGN_CENTER, 0, 25);
 	lv_obj_set_style_text_font(label, &montserrat_18, LV_STATE_DEFAULT);
 	lv_obj_set_style_text_color(label, lv_color_white(), LV_STATE_DEFAULT);
-	lv_label_set_text_fmt(label, "Seu Trajeto");
+	lv_label_set_text_fmt(label, "Distancia:                 km");
 
 	label = lv_label_create(lv_scr_act());
 	lv_obj_align(label, LV_ALIGN_CENTER, 0, 65);
 	lv_obj_set_style_text_font(label, &montserrat_18, LV_STATE_DEFAULT);
 	lv_obj_set_style_text_color(label, lv_color_white(), LV_STATE_DEFAULT);
-	lv_label_set_text_fmt(label, "Seu Trajeto");
+	lv_label_set_text_fmt(label, "Vel. Media:              km/h");
 
 	label = lv_label_create(lv_scr_act());
 	lv_obj_align(label, LV_ALIGN_CENTER, 0, 105);
 	lv_obj_set_style_text_font(label, &montserrat_18, LV_STATE_DEFAULT);
 	lv_obj_set_style_text_color(label, lv_color_white(), LV_STATE_DEFAULT);
-	lv_label_set_text_fmt(label, "Seu Trajeto");
+	lv_label_set_text_fmt(label, "Tempo:            min");
 
 	config = lv_btn_create(lv_scr_act());
 	lv_obj_add_event_cb(config, event_handler, LV_EVENT_ALL, NULL);
-	lv_obj_align(config, LV_ALIGN_BOTTOM_MID, -100, 10);
+	lv_obj_align(config, LV_ALIGN_BOTTOM_MID, -100, 0);
 	lv_obj_add_style(config, &style, 0);
 	label = lv_label_create(config);
 	lv_label_set_text(label, LV_SYMBOL_SETTINGS);
@@ -177,7 +177,7 @@ void lv_tela3(void) {
 
 	stop = lv_btn_create(lv_scr_act());
 	lv_obj_add_event_cb(stop, event_handler, LV_EVENT_ALL, NULL);
-	lv_obj_align(stop, LV_ALIGN_BOTTOM_MID, 70, 10);
+	lv_obj_align(stop, LV_ALIGN_BOTTOM_MID, 60 , 0);
 	lv_obj_add_style(stop, &style, 0);
 	label = lv_label_create(stop);
 	lv_label_set_text(label, LV_SYMBOL_STOP);
@@ -185,11 +185,17 @@ void lv_tela3(void) {
 
 	play = lv_btn_create(lv_scr_act());
 	lv_obj_add_event_cb(play, event_handler, LV_EVENT_ALL, NULL);
-	lv_obj_align(play, LV_ALIGN_BOTTOM_MID, 95, 10);
+	lv_obj_align(play, LV_ALIGN_BOTTOM_MID, 95, 0);
 	lv_obj_add_style(play, &style, 0);
 	label = lv_label_create(play);
 	lv_label_set_text(label, LV_SYMBOL_PLAY);
 	lv_obj_center(label);
+
+	clock = lv_label_create(lv_scr_act());
+	lv_obj_align(clock, LV_ALIGN_TOP_RIGHT, -20, 5);
+	lv_obj_set_style_text_font(clock, &montserrat_18, LV_STATE_DEFAULT);
+	lv_obj_set_style_text_color(clock, lv_color_white(), LV_STATE_DEFAULT);
+	lv_label_set_text_fmt(clock, "%02d:%02d", 12, 30);
 }
 
 static void play1_handler(lv_event_t * e) {
@@ -235,8 +241,21 @@ void lv_tela2(void) {
 	label = lv_label_create(play);
 	lv_label_set_text(label, LV_SYMBOL_PLAY);
 	lv_obj_center(label);
-}
 
+	config = lv_btn_create(lv_scr_act());
+	lv_obj_add_event_cb(config, event_handler, LV_EVENT_ALL, NULL);
+	lv_obj_align(config, LV_ALIGN_BOTTOM_MID, -100, 0);
+	lv_obj_add_style(config, &style, 0);
+	label = lv_label_create(config);
+	lv_label_set_text(label, LV_SYMBOL_SETTINGS);
+	lv_obj_center(label);
+
+	clock = lv_label_create(lv_scr_act());
+	lv_obj_align(clock, LV_ALIGN_TOP_RIGHT, -20, 5);
+	lv_obj_set_style_text_font(clock, &montserrat_18, LV_STATE_DEFAULT);
+	lv_obj_set_style_text_color(clock, lv_color_white(), LV_STATE_DEFAULT);
+	lv_label_set_text_fmt(clock, "%02d:%02d", 12, 30);
+}
 
 static void tela1_handler(lv_event_t * e) {
 	lv_event_code_t code = lv_event_get_code(e);
