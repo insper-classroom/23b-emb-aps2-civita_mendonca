@@ -1,0 +1,2 @@
+angles-up = f102
+angles-down = f103

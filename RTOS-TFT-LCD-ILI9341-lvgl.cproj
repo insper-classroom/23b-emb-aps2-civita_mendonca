@@ -858,6 +858,9 @@
     <Folder Include="src\touch\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\acceleration_symbols.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="src\ASF\thirdparty\lvgl8\examples\anim\lv_example_anim.h">
       <SubType>compile</SubType>
     </Compile>
@@ -2268,6 +2271,9 @@
     <Compile Include="src\config\conf_touch.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="src\font_awesome_test.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="src\img\tela1.h">
       <SubType>compile</SubType>
     </Compile>
@@ -2295,6 +2301,12 @@
     <Compile Include="src\img\tela7_v1.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="src\montserrat_18.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\montserrat_22.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="src\montserrat_32.c">
       <SubType>compile</SubType>
     </Compile>
@@ -2305,6 +2317,9 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\touch\touch.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\wheel_symbol.c">
       <SubType>compile</SubType>
     </Compile>
     <None Include="src\ASF\sam\drivers\afec\afec.h">

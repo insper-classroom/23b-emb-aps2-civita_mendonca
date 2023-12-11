@@ -2,6 +2,8 @@
 # Automatically-generated file. Do not edit or delete the file
 ################################################################################
 
+src\acceleration_symbols.c
+
 src\ASF\thirdparty\lvgl8\examples\anim\lv_example_anim_1.c
 
 src\ASF\thirdparty\lvgl8\examples\anim\lv_example_anim_2.c
@@ -620,11 +622,19 @@ src\ASF\thirdparty\lvgl8\tests\unity\unity.c
 
 src\ASF\thirdparty\lvgl8\tests\unity\unity_support.c
 
+src\font_awesome_test.c
+
+src\montserrat_18.c
+
+src\montserrat_22.c
+
 src\montserrat_32.c
 
 src\montserrat_65.c
 
 src\touch\touch.c
+
+src\wheel_symbol.c
 
 src\ASF\common\services\sleepmgr\sam\sleepmgr.c
 

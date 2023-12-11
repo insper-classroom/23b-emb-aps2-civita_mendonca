@@ -15,9 +15,20 @@
 #include "img/tela6_v1.h"
 #include "img/tela6_v2.h"
 #include "img/tela7_v1.h"
+#include "img/roda.h"
 
 LV_FONT_DECLARE(montserrat_65);
 LV_FONT_DECLARE(montserrat_32);
+LV_FONT_DECLARE(montserrat_18);
+LV_FONT_DECLARE(acceleration_symbols);
+LV_FONT_DECLARE(wheel_symbol);
+LV_FONT_DECLARE(font_awesome_test);
+// LV_FONT_DECLARE(up_symbol);
+
+#define MY_CLOCK_SYMBOL "\xEF\x80\x97"
+#define MY_UP_SYMBOL "\xEF\x84\x82"
+#define MY_DOWN_SYMBOL "\xEF\x84\x83"
+#define MY_WHEEL_SYMBOL "\xEF\x88\x86"
 
 /************************************************************************/
 /* LCD / LVGL                                                           */
@@ -43,6 +54,11 @@ lv_obj_t *pause;
 lv_obj_t *stop;
 lv_obj_t *config;
 lv_obj_t *home;
+lv_obj_t *back;
+lv_obj_t *wheel;
+lv_obj_t *up;
+lv_obj_t *down;
+lv_obj_t *btn3;
 
 /************************************************************************/
 /* RTOS                                                                 */
@@ -87,13 +103,16 @@ static void event_handler(lv_event_t * e) {
 	}
 }
 
-void lv_img_tela2_fake(void) {
-	img2 = lv_img_create(lv_scr_act());
-	lv_img_set_src(img2, &tela2);
-	lv_obj_align(img2, LV_ALIGN_CENTER, 0, 0);
-}
-
 void lv_tela3(void) {
+	lv_obj_t * label;
+	static lv_style_t style;
+
+	lv_style_init(&style);
+	// lv_style_set_bg_color(&style, lv_palette_main(LV_PALETTE_RED)); # mostrar o bug pro professor dps
+	lv_style_set_bg_color(&style, lv_palette_main(LV_PALETTE_NONE));
+	lv_style_set_border_color(&style, lv_palette_main(LV_PALETTE_NONE));
+	lv_style_set_border_width(&style, 5);
+
 	velocimeter = lv_label_create(lv_scr_act());
 	lv_obj_align(velocimeter, LV_ALIGN_CENTER, 0, -105);
 	lv_obj_set_style_text_font(velocimeter, &montserrat_65, LV_STATE_DEFAULT);
@@ -105,6 +124,72 @@ void lv_tela3(void) {
 	lv_obj_set_style_text_font(kmporh, &montserrat_32, LV_STATE_DEFAULT);
 	lv_obj_set_style_text_color(kmporh, lv_color_white(), LV_STATE_DEFAULT);
 	lv_label_set_text_fmt(kmporh, "km/h");
+	// COLOCAR UM HANDLE DPS CONFORME O SENSOR DE ACELERACAO PARA UP E DOWN
+	up = lv_btn_create(lv_scr_act());
+	lv_obj_align(up, LV_ALIGN_CENTER, -100, -105);
+	lv_obj_add_style(up, &style, 0);
+
+	label = lv_label_create(up); 
+	lv_obj_set_style_text_font(label, &acceleration_symbols, LV_STATE_DEFAULT);
+	lv_label_set_text(label, MY_UP_SYMBOL);
+	lv_obj_center(label);
+
+	down = lv_btn_create(lv_scr_act());
+	lv_obj_align(down, LV_ALIGN_CENTER, 100, -105);
+	lv_obj_add_style(down, &style, 0);
+
+	label = lv_label_create(down);
+	lv_obj_set_style_text_font(label, &acceleration_symbols, LV_STATE_DEFAULT);
+	lv_label_set_text(label, MY_DOWN_SYMBOL);
+	lv_obj_center(label);
+	//
+	label = lv_label_create(lv_scr_act());
+	lv_obj_align(label, LV_ALIGN_CENTER, 0, -10);
+	lv_obj_set_style_text_font(label, &montserrat_18, LV_STATE_DEFAULT);
+	lv_obj_set_style_text_color(label, lv_color_white(), LV_STATE_DEFAULT);
+	lv_label_set_text_fmt(label, "Seu Trajeto");
+
+	label = lv_label_create(lv_scr_act());
+	lv_obj_align(label, LV_ALIGN_CENTER, 0, 25);
+	lv_obj_set_style_text_font(label, &montserrat_18, LV_STATE_DEFAULT);
+	lv_obj_set_style_text_color(label, lv_color_white(), LV_STATE_DEFAULT);
+	lv_label_set_text_fmt(label, "Seu Trajeto");
+
+	label = lv_label_create(lv_scr_act());
+	lv_obj_align(label, LV_ALIGN_CENTER, 0, 65);
+	lv_obj_set_style_text_font(label, &montserrat_18, LV_STATE_DEFAULT);
+	lv_obj_set_style_text_color(label, lv_color_white(), LV_STATE_DEFAULT);
+	lv_label_set_text_fmt(label, "Seu Trajeto");
+
+	label = lv_label_create(lv_scr_act());
+	lv_obj_align(label, LV_ALIGN_CENTER, 0, 105);
+	lv_obj_set_style_text_font(label, &montserrat_18, LV_STATE_DEFAULT);
+	lv_obj_set_style_text_color(label, lv_color_white(), LV_STATE_DEFAULT);
+	lv_label_set_text_fmt(label, "Seu Trajeto");
+
+	config = lv_btn_create(lv_scr_act());
+	lv_obj_add_event_cb(config, event_handler, LV_EVENT_ALL, NULL);
+	lv_obj_align(config, LV_ALIGN_BOTTOM_MID, -100, 10);
+	lv_obj_add_style(config, &style, 0);
+	label = lv_label_create(config);
+	lv_label_set_text(label, LV_SYMBOL_SETTINGS);
+	lv_obj_center(label);
+
+	stop = lv_btn_create(lv_scr_act());
+	lv_obj_add_event_cb(stop, event_handler, LV_EVENT_ALL, NULL);
+	lv_obj_align(stop, LV_ALIGN_BOTTOM_MID, 70, 10);
+	lv_obj_add_style(stop, &style, 0);
+	label = lv_label_create(stop);
+	lv_label_set_text(label, LV_SYMBOL_STOP);
+	lv_obj_center(label);
+
+	play = lv_btn_create(lv_scr_act());
+	lv_obj_add_event_cb(play, event_handler, LV_EVENT_ALL, NULL);
+	lv_obj_align(play, LV_ALIGN_BOTTOM_MID, 95, 10);
+	lv_obj_add_style(play, &style, 0);
+	label = lv_label_create(play);
+	lv_label_set_text(label, LV_SYMBOL_PLAY);
+	lv_obj_center(label);
 }
 
 static void play1_handler(lv_event_t * e) {
@@ -124,7 +209,8 @@ void lv_tela2(void) {
 	static lv_style_t style;
 
 	lv_style_init(&style);
-	lv_style_set_bg_color(&style, lv_palette_main(LV_PALETTE_RED));
+	// lv_style_set_bg_color(&style, lv_palette_main(LV_PALETTE_RED)); # mostrar o bug pro professor dps
+	lv_style_set_bg_color(&style, lv_palette_main(LV_PALETTE_NONE));
 	lv_style_set_border_color(&style, lv_palette_main(LV_PALETTE_NONE));
 	lv_style_set_border_width(&style, 5);
 
@@ -134,11 +220,11 @@ void lv_tela2(void) {
 	lv_obj_set_style_text_color(velocimeter, lv_color_white(), LV_STATE_DEFAULT);
 	lv_label_set_text_fmt(velocimeter, "%d.%d", 0, 0);
 
-	kmporh = lv_label_create(lv_scr_act());
-	lv_obj_align(kmporh, LV_ALIGN_CENTER, 0, -15);
-	lv_obj_set_style_text_font(kmporh, &montserrat_32, LV_STATE_DEFAULT);
-	lv_obj_set_style_text_color(kmporh, lv_color_white(), LV_STATE_DEFAULT);
-	lv_label_set_text_fmt(kmporh, "km/h");
+	label = lv_label_create(lv_scr_act());
+	lv_obj_align(label, LV_ALIGN_CENTER, 0, -15);
+	lv_obj_set_style_text_font(label, &montserrat_32, LV_STATE_DEFAULT);
+	lv_obj_set_style_text_color(label, lv_color_white(), LV_STATE_DEFAULT);
+	lv_label_set_text_fmt(label, "km/h");
 
 	play = lv_btn_create(lv_scr_act());
 	lv_obj_add_event_cb(play, play1_handler, LV_EVENT_ALL, NULL);
@@ -172,16 +258,23 @@ void lv_img_tela1(void) {
 	lv_obj_add_event_cb(img1, tela1_handler, LV_EVENT_ALL, NULL);
 }
 
-void lv_img_tela3e4(void) {
-	lv_obj_t * img3e4 = lv_img_create(lv_scr_act());
-	lv_img_set_src(img3e4, &tela3e4_v1);
-	lv_obj_align(img3e4, LV_ALIGN_CENTER, 0, 0);
-}
+void lv_img_tela5(void) { //tela de escolha de roda
+	lv_obj_t *label;
+	static lv_style_t style;
 
-void lv_img_tela5(void) {
-	lv_obj_t * img5 = lv_img_create(lv_scr_act());
-	lv_img_set_src(img5, &tela5_v1);
-	lv_obj_align(img5, LV_ALIGN_CENTER, 0, 0);
+	lv_style_init(&style);
+	lv_style_set_bg_color(&style, lv_palette_main(LV_PALETTE_NONE));
+	lv_style_set_border_color(&style, lv_palette_main(LV_PALETTE_NONE));
+	lv_style_set_border_width(&style, 5);
+
+	wheel = lv_btn_create(lv_scr_act());
+	lv_obj_align(wheel, LV_ALIGN_CENTER, 0, 100);
+	lv_obj_add_style(wheel, &style, 0);
+
+	label = lv_label_create(wheel);
+	lv_obj_set_style_text_font(label, &wheel_symbol, LV_STATE_DEFAULT);
+	lv_label_set_text(label, MY_WHEEL_SYMBOL);
+	lv_obj_center(label);
 }
 
 void lv_img_tela6(void) {
