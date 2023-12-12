@@ -150,22 +150,40 @@ void lv_tela3(void) {
 	lv_label_set_text_fmt(label, "Seu Trajeto");
 
 	label = lv_label_create(lv_scr_act());
-	lv_obj_align(label, LV_ALIGN_CENTER, 0, 25);
+	lv_obj_align(label, LV_ALIGN_LEFT_MID, 0, 25);
 	lv_obj_set_style_text_font(label, &montserrat_18, LV_STATE_DEFAULT);
 	lv_obj_set_style_text_color(label, lv_color_white(), LV_STATE_DEFAULT);
-	lv_label_set_text_fmt(label, "Distancia:                 km");
+	lv_label_set_text_fmt(label, "Distancia:");
 
 	label = lv_label_create(lv_scr_act());
-	lv_obj_align(label, LV_ALIGN_CENTER, 0, 65);
+	lv_obj_align(label, LV_ALIGN_RIGHT_MID, 0, 25);
 	lv_obj_set_style_text_font(label, &montserrat_18, LV_STATE_DEFAULT);
 	lv_obj_set_style_text_color(label, lv_color_white(), LV_STATE_DEFAULT);
-	lv_label_set_text_fmt(label, "Vel. Media:              km/h");
+	lv_label_set_text_fmt(label, "km ");
 
 	label = lv_label_create(lv_scr_act());
-	lv_obj_align(label, LV_ALIGN_CENTER, 0, 105);
+	lv_obj_align(label, LV_ALIGN_LEFT_MID, 0, 65);
 	lv_obj_set_style_text_font(label, &montserrat_18, LV_STATE_DEFAULT);
 	lv_obj_set_style_text_color(label, lv_color_white(), LV_STATE_DEFAULT);
-	lv_label_set_text_fmt(label, "Tempo:            min");
+	lv_label_set_text_fmt(label, "Vel. Media:");
+
+	label = lv_label_create(lv_scr_act());
+	lv_obj_align(label, LV_ALIGN_RIGHT_MID, 0, 65);
+	lv_obj_set_style_text_font(label, &montserrat_18, LV_STATE_DEFAULT);
+	lv_obj_set_style_text_color(label, lv_color_white(), LV_STATE_DEFAULT);
+	lv_label_set_text_fmt(label, "km/h ");
+
+	label = lv_label_create(lv_scr_act());
+	lv_obj_align(label, LV_ALIGN_LEFT_MID, 0, 105);
+	lv_obj_set_style_text_font(label, &montserrat_18, LV_STATE_DEFAULT);
+	lv_obj_set_style_text_color(label, lv_color_white(), LV_STATE_DEFAULT);
+	lv_label_set_text_fmt(label, "Tempo:");
+
+	label = lv_label_create(lv_scr_act());
+	lv_obj_align(label, LV_ALIGN_RIGHT_MID, 0, 105);
+	lv_obj_set_style_text_font(label, &montserrat_18, LV_STATE_DEFAULT);
+	lv_obj_set_style_text_color(label, lv_color_white(), LV_STATE_DEFAULT);
+	lv_label_set_text_fmt(label, "min ");
 
 	config = lv_btn_create(lv_scr_act());
 	lv_obj_add_event_cb(config, event_handler, LV_EVENT_ALL, NULL);
