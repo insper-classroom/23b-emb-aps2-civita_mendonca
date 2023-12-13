@@ -18,7 +18,7 @@
 #include "img/roda.h"
 #include "arm_math.h"
 
-// RECEBIMENTO PULSO
+// PINO DE RECEBIMENTO PULSO
 #define RECEBIMENTO_PIO PIOA
 #define RECEBIMENTO_PIO_ID ID_PIOA
 #define RECEBIMENTO_PIO_IDX 19
@@ -27,6 +27,7 @@
 #define RAIO 0.508 / 2
 #define VEL_MAX_KMH 5.0f
 #define VEL_MIN_KMH 0.5f
+#define RAMP
 #define PI 3.14
 
 LV_FONT_DECLARE(montserrat_65);
@@ -291,7 +292,7 @@ void lv_tela3(void)
 	lv_obj_align(distance, LV_ALIGN_CENTER, 0, 25);
 	lv_obj_set_style_text_font(distance, &montserrat_18, LV_STATE_DEFAULT);
 	lv_obj_set_style_text_color(distance, lv_color_white(), LV_STATE_DEFAULT);
-	lv_label_set_text_fmt(distance, "%f", 0.0);
+	lv_label_set_text_fmt(distance, "%2.1f", 0.0);
 
 	label = lv_label_create(lv_scr_act());
 	lv_obj_align(label, LV_ALIGN_RIGHT_MID, 0, 25);
@@ -309,7 +310,7 @@ void lv_tela3(void)
 	lv_obj_align(speed, LV_ALIGN_CENTER, 0, 65);
 	lv_obj_set_style_text_font(speed, &montserrat_18, LV_STATE_DEFAULT);
 	lv_obj_set_style_text_color(speed, lv_color_white(), LV_STATE_DEFAULT);
-	lv_label_set_text_fmt(speed, "%f", 0.0);
+	lv_label_set_text_fmt(speed, "%2.1f", 0.0);
 
 	label = lv_label_create(lv_scr_act());
 	lv_obj_align(label, LV_ALIGN_RIGHT_MID, 0, 65);
@@ -390,6 +391,12 @@ void lv_tela4(void)
 	lv_obj_set_style_text_color(label, lv_color_white(), LV_STATE_DEFAULT);
 	lv_label_set_text_fmt(label, "Distancia:");
 
+	distance = lv_label_create(lv_scr_act());
+	lv_obj_align(distance, LV_ALIGN_CENTER, 0, 80);
+	lv_obj_set_style_text_font(distance, &montserrat_18, LV_STATE_DEFAULT);
+	lv_obj_set_style_text_color(distance, lv_color_white(), LV_STATE_DEFAULT);
+	lv_label_set_text_fmt(distance, "%2.1f", 0.0);
+
 	label = lv_label_create(lv_scr_act());
 	lv_obj_align(label, LV_ALIGN_TOP_RIGHT, 0, 80);
 	lv_obj_set_style_text_font(label, &montserrat_18, LV_STATE_DEFAULT);
@@ -402,6 +409,12 @@ void lv_tela4(void)
 	lv_obj_set_style_text_color(label, lv_color_white(), LV_STATE_DEFAULT);
 	lv_label_set_text_fmt(label, "Vel. Media:");
 
+	speed = lv_label_create(lv_scr_act());
+	lv_obj_align(speed, LV_ALIGN_TOP_MID, 0, 120);
+	lv_obj_set_style_text_font(speed, &montserrat_18, LV_STATE_DEFAULT);
+	lv_obj_set_style_text_color(speed, lv_color_white(), LV_STATE_DEFAULT);
+	lv_label_set_text_fmt(speed, "%2.1f", 0.0);
+
 	label = lv_label_create(lv_scr_act());
 	lv_obj_align(label, LV_ALIGN_TOP_RIGHT, 0, 120);
 	lv_obj_set_style_text_font(label, &montserrat_18, LV_STATE_DEFAULT);
@@ -413,6 +426,11 @@ void lv_tela4(void)
 	lv_obj_set_style_text_font(label, &montserrat_18, LV_STATE_DEFAULT);
 	lv_obj_set_style_text_color(label, lv_color_white(), LV_STATE_DEFAULT);
 	lv_label_set_text_fmt(label, "Tempo:");
+
+	timer = lv_label_create(lv_scr_act());
+	lv_obj_align(timer, LV_ALIGN_TOP_MID, 0, 160);
+	lv_obj_set_style_text_font(timer, &montserrat_18, LV_STATE_DEFAULT);
+	lv_obj_set_style_text_color(timer, lv_color_white(), LV_STATE_DEFAULT);
 
 	label = lv_label_create(lv_scr_act());
 	lv_obj_align(label, LV_ALIGN_TOP_RIGHT, 0, 160);
@@ -522,6 +540,7 @@ void sensor_callback(void)
 {
 	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
 	xSemaphoreGiveFromISR(xSemaphoreWheel, &xHigherPriorityTaskWoken);
+	printf("Pulso recebido\n");
 }
 
 static void event_handler(lv_event_t * e) {
@@ -787,8 +806,7 @@ static void RTT_init(float freqPrescale, uint32_t IrqNPulses, uint32_t rttIRQSou
 	{
 		uint32_t ul_previous_time;
 		ul_previous_time = rtt_read_timer_value(RTT);
-		while (ul_previous_time == rtt_read_timer_value(RTT))
-			;
+		while (ul_previous_time == rtt_read_timer_value(RTT));
 		rtt_write_alarm_time(RTT, IrqNPulses + ul_previous_time);
 	}
 
@@ -830,6 +848,9 @@ static void task_simulador(void *pvParameters)
 		pio_clear(PIOC, PIO_PC31);
 		delay_ms(1);
 		pio_set(PIOC, PIO_PC31);
+
+		#ifdef RAMP
+
 		if (ramp_up)
 		{
 			printf("[SIMU] ACELERANDO: %d \n", (int)(10 * vel));
@@ -845,8 +866,14 @@ static void task_simulador(void *pvParameters)
 			ramp_up = 0;
 		else if (vel <= VEL_MIN_KMH)
 			ramp_up = 1;
+
+		#else
+		
 		vel = 5;
 		printf("[SIMU] CONSTANTE: %d \n", (int)(10 * vel));
+
+		#endif
+		
 		f = kmh_to_hz(vel, RAIO);
 		int t = 965 * (1.0 / f); // UTILIZADO 965 como multiplicador ao invés de 1000
 								 // para compensar o atraso gerado pelo Escalonador do freeRTOS
@@ -884,6 +911,7 @@ static void task_lcd(void *pvParameters) {
 	int freq = 100;
 	int pause = 0;
 	double paused_time = 0.0;
+	int restart = 0;
 
 	for (;;)
 	{
@@ -925,11 +953,24 @@ static void task_lcd(void *pvParameters) {
 			{
 				if (screen == TELA3)
 				{
-					if (run_start.hour != 0 || run_start.minute != 0 || run_start.second != 0)
+					if (run_start.hour != 0 || run_start.minute != 0 || run_start.second != 0 && restart == 0)
 					{
 						run = get_difference(run_start, current_time);
 						calendar teste = get_difference(pause_duration, run);
 						lv_label_set_text_fmt(timer, "%d:%02d:%02d", teste.hour, teste.minute, teste.second);
+					}
+					// FAZER UMA LOGICA QUE QUANDO O USUARIO VOLTAR DA TELA 4 PARA A TELA 3 ELE REINICIE O CRONOMETRO DO ZERO
+
+					if (run.hour == 0 && run.minute == 0 && run.second == 0)
+					{
+						restart = 1;
+						lv_label_set_text_fmt(timer, "%d:%02d:%02d", 0, 0, 0);
+					}
+
+					if (restart == 1)
+					{
+						run_start = current_time;
+						restart = 0;
 					}
 				}
 			}
@@ -948,6 +989,7 @@ static void task_lcd(void *pvParameters) {
 			{
 				if (xSemaphoreTake(xSemaphoreWheel, 0))
 				{
+					printf("oieee\n");
 
 					wheel_counter++;
 					char buffer[20]; // buffer auxiliar para conversão de float para string
@@ -996,28 +1038,31 @@ static void task_lcd(void *pvParameters) {
 			wheel_counter = 0;
 		}
 
+		if (screen == TELA4)
+		{
+			// Setando a distância percorrida
+			double odo = 2 * PI * wheel_radius * (wheel_counter) / 1000; // to km
+			char buffer[20];											  // buffer auxiliar para conversão de float para string
+			sprintf(buffer, "%2.1f", odo);
+			lv_label_set_text_fmt(distance, buffer);
+
+			// Setando a velocidade média
+			int run_time_sec = run.hour * 3600 + run.minute * 60 + run.second;
+			double avg = (odo * 1000) / run_time_sec; // velocidade em metros por segundo
+			avg *= 3.6;								  // velocidade em km/h
+			sprintf(buffer, "%2.1f", avg);
+			lv_label_set_text_fmt(speed, buffer);
+
+			// Setando o tempo de duração
+			calendar total_time = sum_time(run, pause_duration);
+			lv_label_set_text_fmt(timer, "%d:%02d:%02d", total_time.hour, total_time.minute, total_time.second);
+		}
+
 		if (screen == TELA5)
 		{
 			char *buf[10];
 			lv_roller_get_selected_str(roller, buf, sizeof(buf));
 			wheel_radius_s = buf;
-		}
-
-		if (xSemaphoreTake(xSemaphoreApply, 0))
-		{
-			if (unit == IN)
-			{
-				wheel_radius = (double)atoi(wheel_radius_s) * 0.0254;
-			}
-			else
-			{
-				wheel_radius = (double)atoi(wheel_radius_s) / 1000;
-			}
-		}
-
-		if (xQueueReceiveFromISR(xQueueUnit, &unit, 0))
-		{
-			printf("unit: %d\n", unit);
 		}
 
 		if (xSemaphoreTake(xSemaphorePause, 0))
@@ -1084,13 +1129,9 @@ void init(void)
 	// Desativa WatchDog Timer
 	WDT->WDT_MR = WDT_MR_WDDIS;
 
-	// Inicializando Botão da Placa
 	pmc_enable_periph_clk(RECEBIMENTO_PIO_ID);
-	pio_set_input(RECEBIMENTO_PIO, RECEBIMENTO_PIO_IDX, PIO_DEFAULT);
-	pio_pull_up(RECEBIMENTO_PIO, RECEBIMENTO_PIO_IDX, 1);
-	pio_configure(RECEBIMENTO_PIO, PIO_INPUT, RECEBIMENTO_PIO_IDX_MASK, PIO_PULLUP | PIO_DEBOUNCE);
+	pio_configure(RECEBIMENTO_PIO, PIO_INPUT, RECEBIMENTO_PIO_IDX_MASK, PIO_DEBOUNCE);
 	pio_set_debounce_filter(RECEBIMENTO_PIO, RECEBIMENTO_PIO_IDX_MASK, 60);
-
 	pio_handler_set(RECEBIMENTO_PIO, RECEBIMENTO_PIO_ID, RECEBIMENTO_PIO_IDX_MASK, PIO_IT_FALL_EDGE, sensor_callback);
 
 	pio_enable_interrupt(RECEBIMENTO_PIO, RECEBIMENTO_PIO_IDX_MASK);
