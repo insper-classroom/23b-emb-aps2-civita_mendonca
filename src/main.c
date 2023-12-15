@@ -324,7 +324,7 @@ void lv_tela3(void)
 	lv_obj_align(timer, LV_ALIGN_CENTER, 0, 85);
 	lv_obj_set_style_text_font(timer, &montserrat_16, LV_STATE_DEFAULT);
 	lv_obj_set_style_text_color(timer, lv_color_white(), LV_STATE_DEFAULT);
-	lv_label_set_text_fmt(timer, "%d:%02d:%02d", 0, 0, 0);
+	lv_label_set_text_fmt(timer, "%02d:%02d:%02d", 0, 0, 0);
 
 	label = lv_label_create(lv_scr_act());
 	lv_obj_align(label, LV_ALIGN_RIGHT_MID, 0, 85);
@@ -652,54 +652,119 @@ void RTT_Handler(void)
 calendar get_difference(calendar start, calendar end)
 {
 	calendar diff;
-	diff.year = end.year;
-	diff.month = end.month;
-	diff.day = end.day;
-	diff.hour = end.hour - start.hour;
-	diff.minute = end.minute - start.minute;
-	diff.second = end.second - start.second;
-	if (diff.second < 0)
+
+	int end_second = end.second;
+	int start_second = start.second;
+	int end_minute = end.minute;
+	int start_minute = start.minute;
+	int end_hour = end.hour;
+	int start_hour = start.hour;
+	int end_day = end.day;
+	int start_day = start.day;
+	int end_week = end.week;
+	int start_week = start.week;
+	int end_month = end.month;
+	int start_month = start.month;
+	int end_year = end.year;
+	int start_year = start.year;
+
+	// Subtrai os segundos
+	int second = end_second - start_second;
+	if (second < 0)
 	{
-		diff.second += 60;
-		diff.minute--;
+		second += 60;
+		end_minute--;
 	}
-	if (diff.minute < 0)
+
+	// Subtrai os minutos
+	int minute = end_minute - start_minute;
+	if (minute < 0)
 	{
-		diff.minute += 60;
-		diff.hour--;
+		minute += 60;
+		end_hour--;
 	}
-	if (diff.hour < 0)
+
+	// Subtrai as horas
+	int hour = end_hour - start_hour;
+	if (hour < 0)
 	{
-		diff.hour += 24;
-		diff.day--;
+		hour += 24;
+		end_day--;
 	}
+
+	// Subtrai os dias
+	int day = end_day - start_day;
+	if (day < 0)
+	{
+		day += 30; // Ajuste adicional pode ser necessário dependendo do mês/ano
+		end_month--;
+	}
+
+	// Subtrai as semanas
+	int week = end_week - start_week;
+	if (week < 0)
+	{
+		week += 52;
+		end_year--;
+	}
+
+	// Subtrai os meses
+	int month = end_month - start_month;
+	if (month < 0)
+	{
+		month += 12;
+		end_year--;
+	}
+
+	// Subtrai os anos
+	int year = end_year - start_year;
+
+	diff.second = second;
+	diff.minute = minute;
+	diff.hour = hour;
+	diff.day = day;
+	diff.week = week;
+	diff.month = month;
+	diff.year = year;
+	
 	return diff;
 }
 
 calendar sum_time(calendar start, calendar end)
 {
 	calendar sum;
-	sum.year = start.year;
-	sum.month = start.month;
-	sum.day = start.day;
-	sum.hour = start.hour + end.hour;
-	sum.minute = start.minute + end.minute;
+
+	// Soma os segundos
 	sum.second = start.second + end.second;
 	if (sum.second >= 60)
 	{
 		sum.second -= 60;
-		sum.minute++;
+		start.minute++;
 	}
+
+	// Soma os minutos
+	sum.minute = start.minute + end.minute;
 	if (sum.minute >= 60)
 	{
 		sum.minute -= 60;
-		sum.hour++;
+		start.hour++;
 	}
+
+	// Soma as horas
+	sum.hour = start.hour + end.hour;
 	if (sum.hour >= 24)
 	{
 		sum.hour -= 24;
-		sum.day++;
+		start.day++;
 	}
+
+	// Soma os dias
+	sum.day = start.day + end.day; // Ajuste adicional pode ser necessário dependendo do mês/ano
+
+	// Meses e anos não são alterados
+	sum.month = start.month;
+	sum.year = start.year;
+
 	return sum;
 }
 
@@ -864,6 +929,7 @@ static void task_lcd(void *pvParameters)
 			if (xQueueReceiveFromISR(xQueueScreens, &screen, 1))
 			{
 				lv_obj_clean(lv_scr_act());
+				printf("TELA%d\n", screen+2);
 				switch (screen)
 				{
 				case TELA2:
@@ -890,6 +956,9 @@ static void task_lcd(void *pvParameters)
 				run = get_difference(run_start, current_time);
 				calendar teste = get_difference(pause_duration, run);
 				lv_label_set_text_fmt(timer, "%d:%02d:%02d", teste.hour, teste.minute, teste.second);
+
+				printf("teste = %02d:%02d:%02d\n", teste.hour, teste.minute, teste.second);
+				printf("current_time = %02d:%02d:%02d\n", current_time.hour, current_time.minute, current_time.second);
 			}
 		}
 
@@ -899,6 +968,7 @@ static void task_lcd(void *pvParameters)
 			int start_hour, start_min, start_sec;
 			rtc_get_time(RTC, &start_hour, &start_min, &start_sec);
 			run_start = (calendar){0, 0, 0, 0, start_hour, start_min, start_sec};
+			// printf("run_start = %02d:%02d:%02d\n", run_start.hour, run_start.minute, run_start.second);
 
 			distanciaTotal = 0;
 			velocidadeMediaKmh = 0;
@@ -924,6 +994,7 @@ static void task_lcd(void *pvParameters)
 				rtc_get_time(RTC, &start_pause_hour, &start_pause_min, &start_pause_sec);
 
 				pause_start = (calendar){0, 0, 0, 0, start_pause_hour, start_pause_min, start_pause_sec};
+				printf("pause_start = %02d:%02d:%02d\n", start_pause_hour, start_pause_min, start_pause_sec);
 			}
 			else
 			{
@@ -932,6 +1003,7 @@ static void task_lcd(void *pvParameters)
 				rtc_get_time(RTC, &current_hour, &current_min, &current_sec);
 				calendar current_time = {0, 0, 0, 0, current_hour, current_min, current_sec};
 				pause_duration = sum_time(pause_duration, get_difference(pause_start, current_time));
+				printf("pause_duration = %02d:%02d:%02d\n", pause_duration.hour, pause_duration.minute, pause_duration.second);
 			}
 			pause = !pause;
 		}
