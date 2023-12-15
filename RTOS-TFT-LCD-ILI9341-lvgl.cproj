@@ -524,7 +524,6 @@
       <Value>BOARD=SAME70_XPLAINED</Value>
       <Value>scanf=iscanf</Value>
       <Value>ARM_MATH_CM7=true</Value>
-      <Value>printf=iprintf</Value>
       <Value>LV_CONF_INCLUDE_SIMPLE</Value>
       <Value>__FREERTOS__</Value>
     </ListValues>
@@ -2331,6 +2330,9 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\img\tela7_v1.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\montserrat_16.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\montserrat_18.c">

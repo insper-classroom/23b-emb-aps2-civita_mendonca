@@ -628,6 +628,8 @@ src\ASF\thirdparty\lvgl8\tests\unity\unity_support.c
 
 src\font_awesome_test.c
 
+src\montserrat_16.c
+
 src\montserrat_18.c
 
 src\montserrat_22.c
